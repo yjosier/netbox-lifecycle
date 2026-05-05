@@ -21,6 +21,7 @@ class HwEolScript(Script):
     )
 
     def run(self, data, commit):
+        output = ['name,model,eol']
         # self.log_info(f"In run function")
         # self.log_info(f"Device status from form = {data['device_status']}")
         for device in Device.objects.filter(status=data['device_status']):
@@ -34,3 +35,11 @@ class HwEolScript(Script):
                     self.log_info(f"The EoL for {device} is : {eol}", obj=device)
                 else:
                     self.log_info(f"The EoL for {device} is undefined.", obj=device)
+                attrs = [
+                    device.name,
+                    device.device_type,
+                    eol
+                ]
+                output.append(','.join(attrs))
+        return '\n'.join(output)
+
