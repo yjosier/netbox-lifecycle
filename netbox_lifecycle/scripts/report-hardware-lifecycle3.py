@@ -28,7 +28,9 @@ class HwEolScript(Script):
             # self.log_info(f"Device site name = {device.site.name}")
             # self.log_info(f"Device site name from form = {data['site']}")
             if device.site == data['site']:
-                self.log_info(f"The device type of this device is {device.device_type}", obj=device)
+                #self.log_info(f"The device type of this device is {device.device_type}", obj=device)
                 eol = getattr(device.device_type.hardware_lifecycle.first(), 'end_of_support', None)
                 if eol:
-                    self.log_info(f"The device EoL date is : {eol}", obj=device)
+                    self.log_info(f"The EoL for {device} is : {eol}", obj=device)
+                else:
+                    self.log_info(f"The EoL for {device} is undefined.", obj=device)
