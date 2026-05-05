@@ -27,5 +27,5 @@ class HwEolScript(Script):
             self.log_info(f"In for loop")
             self.log_info(f"Device site name = {device.site.name}")
             self.log_info(f"Device site name from form = {data['site']}")
-            if device.site.name == Device.objects.filter(site=data['site']):
+            if device.site.name == data['site']:
                 self.log_info(f"The device type of this device is {device.device_type}", obj=device)
