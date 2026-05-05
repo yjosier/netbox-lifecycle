@@ -1,6 +1,6 @@
 from dcim.choices import DeviceStatusChoices
 from dcim.models import Device, Site, Location
-from extras.scripts import Script
+from extras.scripts import *
 
 class HwEolScript(Script):
     class Meta:
@@ -16,7 +16,7 @@ class HwEolScript(Script):
         DeviceStatusChoices, 
         default=DeviceStatusChoices.STATUS_ACTIVE,
         description="Device Status",
-        required=False
+        required=True
     )
 
     def run(self, data, commit):
