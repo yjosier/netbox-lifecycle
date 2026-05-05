@@ -22,6 +22,7 @@ class HwEolScript(Script):
 
     def run(self, data, commit):
         self.log_info(f"In run function")
+        self.log_info(f"Device status from for {Device.objects.filter(status=data['device_status'])}")
         for device in Device.objects.filter(status=data['device_status']):
             self.log_info(f"In for loop")
             self.log_info(f"Device site name = {device.site.name}")
