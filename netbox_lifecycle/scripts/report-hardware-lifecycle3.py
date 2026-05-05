@@ -31,4 +31,4 @@ class HwEolScript(Script):
                 self.log_info(f"The device type of this device is {device.device_type}", obj=device)
                 eol = getattr(device.device_type.hardware_lifecycle.first(), 'end_of_support', None)
                 if eol:
-                    self.log_info(f"The device EoL date is : {device.device_type.hardware_lifecycle.first}", obj=device)
+                    self.log_info(f"The device EoL date is : {eol}", obj=device)
