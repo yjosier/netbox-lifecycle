@@ -7,7 +7,8 @@ class HWEOLReport(Script):
 
     def get_hweol_date(self):
         for device in Device.objects.filter(status=DeviceStatusChoices.STATUS_ACTIVE):
-            self.log_info(device, "Device type is %s", device.device_type)
+            self.log_info(device, "Device type is test")
+            #self.log_info(device, "Device type is test %s", device.device_type)
             #self.log_info(device, "Device type is %s and device EoL is %s", device.device_type device.devicetype.endofsupport )
             # intcount = 0
             # for interface in device.interfaces.all():
