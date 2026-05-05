@@ -6,7 +6,7 @@ from extras.scripts import Script
 class HWEOLScript(Script):
     description = "Check that every device has either an IPv4 or IPv6 primary address assigned"
 
-    def hw_eol_report(self):
+    def run(self, data, commit):
         for device in Device.objects.filter(status=DeviceStatusChoices.STATUS_ACTIVE):
             self.log_info(f"The deviceType of this device is {device.device_type}", obj=device)
             # intcount = 0
