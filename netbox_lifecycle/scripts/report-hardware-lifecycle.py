@@ -3,9 +3,7 @@ from dcim.models import Device, Site
 from extras.scripts import Script
 
 class HwEolScript(Script):
-    class Meta:
-        name = "Hardware End-Of-Life Script"
-        description = "Report End-Of-Life date of specified devices"
+    description = "Report End-Of-Life date of specified devices"
 
     site_name = ObjectVar(
         description="Site to pull devices from",
