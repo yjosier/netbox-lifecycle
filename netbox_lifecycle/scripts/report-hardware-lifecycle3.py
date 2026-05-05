@@ -21,11 +21,14 @@ class HwEolScript(Script):
     )
 
     def run(self, data, commit):
-        self.log_info(f"In run function")
-        self.log_info(f"Device status from form = {data['device_status']}")
+        # self.log_info(f"In run function")
+        # self.log_info(f"Device status from form = {data['device_status']}")
         for device in Device.objects.filter(status=data['device_status']):
-            self.log_info(f"In for loop")
-            self.log_info(f"Device site name = {device.site.name}")
-            self.log_info(f"Device site name from form = {data['site']}")
+            # self.log_info(f"In for loop")
+            # self.log_info(f"Device site name = {device.site.name}")
+            # self.log_info(f"Device site name from form = {data['site']}")
             if device.site == data['site']:
                 self.log_info(f"The device type of this device is {device.device_type}", obj=device)
+                eol = getattr(device.device_type.hardware_lifecycle.first(), 'end_of_support', None)
+                if eol:
+                    self.log_info(f"The device EoL date is : {device.device_type.hardware_lifecycle.first}", obj=device)
