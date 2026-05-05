@@ -21,6 +21,10 @@ class HwEolScript(Script):
     )
 
     def run(self, data, commit):
+        self.log_info(f"In run function")
         for device in Device.objects.filter(status=data['device_status']):
+            self.log_info(f"In for loop")
+            self.log_info(f"Device site name = {device.site.name}")
+            self.log_info(f"Device site name from form = {Device.objects.filter(site=data['site_name'])}")
             if device.site.name == Device.objects.filter(site=data['site_name']):
                 self.log_info(f"The device type of this device is {device.device_type}", obj=device)
