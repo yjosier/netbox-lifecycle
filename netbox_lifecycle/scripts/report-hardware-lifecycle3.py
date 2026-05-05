@@ -1,6 +1,7 @@
 from dcim.choices import DeviceStatusChoices
 from dcim.models import Device, DeviceType, Site
 from extras.scripts import *
+from datetime import datetime
 
 class HwEolScript(Script):
     class Meta(Script.Meta):
@@ -38,7 +39,7 @@ class HwEolScript(Script):
                 attrs = [
                     device.name,
                     device.device_type.model,
-                    eol
+                    eol.strftime("%d/%m/%Y")
                 ]
                 output.append(','.join(attrs))
         return '\n'.join(output)
