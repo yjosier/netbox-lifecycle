@@ -37,7 +37,7 @@ class HwEolScript(Script):
                     self.log_info(f"The EoL for {device} is undefined.", obj=device)
                 attrs = [
                     device.name,
-                    device.device_type,
+                    device.device_type.name,
                     eol
                 ]
                 output.append(','.join(attrs))
