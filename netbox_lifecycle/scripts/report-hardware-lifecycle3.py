@@ -37,7 +37,7 @@ class HwEolScript(Script):
                 else:
                     self.log_info(f"The EoL for {device} is undefined.", obj=device)
                 attrs = [
-                    device.site,
+                    device.site.name,
                     device.name,
                     device.device_type.model,
                     eol.strftime("%d/%m/%Y")
