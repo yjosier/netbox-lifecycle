@@ -21,6 +21,6 @@ class HwEolScript(Script):
     )
 
     def run(self, data, commit):
-        for device in Device.objects.filter(status=data['device_status']):
-            for device in Device.objects.filter(site=data['site_name']):
+        for device in Device.objects.filter(status=data['device_status']) 
+            if device.site.name == Device.objects.filter(site=data['site_name']):
                 self.log_info(f"The device type of this device is {device.device_type}", obj=device)
