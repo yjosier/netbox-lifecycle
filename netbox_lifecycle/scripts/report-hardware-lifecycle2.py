@@ -1,21 +1,24 @@
 from dcim.choices import DeviceStatusChoices
-from dcim.models import Device, Site
-from extras.scripts import Script
+from dcim.models import Device, DeviceType, Site
+from extras.scripts import *
 
 class HwEolScript(Script):
-    description = "Report End-Of-Life date of specified devices"
+    class Meta(Script.Meta):
+        name = "Hardware End-Of-Life Script"
+        description = "Report End-Of-Life date of specified devices"
+        field_order = ['site_name', 'device_status']
 
-    # site_name = ObjectVar(
-    #     description="Site to pull devices from",
-    #     model=Site,
-    #     required=True
-    # )
-    # device_status = ChoiceVar(
-    #     DeviceStatusChoices, 
-    #     default=DeviceStatusChoices.STATUS_ACTIVE,
-    #     description="Device Status",
-    #     required=True
-    # )
+    site_name = ObjectVar(
+        description="Site to pull devices from",
+        model=Site,
+        required=True
+    )
+    device_status = ChoiceVar(
+        DeviceStatusChoices, 
+        default=DeviceStatusChoices.STATUS_ACTIVE,
+        description="Device Status",
+        required=True
+    )
 
     def run(self, data, commit):
         for device in Device.objects.filter(status=data['device_status']):
