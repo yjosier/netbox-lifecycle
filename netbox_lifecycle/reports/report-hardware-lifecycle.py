@@ -1,13 +1,18 @@
 from dcim.choices import DeviceStatusChoices
 from dcim.models import Device
 from extras.scripts import Script
+import re
 
 class HWEOLReport(Script):
     description = "Report the EoL date for each device"
 
     def get_hweol_date(self):
         for device in Device.objects.filter(status=DeviceStatusChoices.STATUS_ACTIVE):
-            self.log_info(device, "Device type is test")
+            if re.match(str(device.site.name) + "-[a-zA-Z]+-[0-9]+", str(device.name), re.IGNORECASE):
+                self.log_success(device)
+            else:
+                self.log_failure(device, "Hostname does not conform to standard!")
+            #self.log_info(device, "Device type is test")
             #self.log_info(device, "Device type is test %s", device.device_type)
             #self.log_info(device, "Device type is %s and device EoL is %s", device.device_type device.devicetype.endofsupport )
             # intcount = 0
