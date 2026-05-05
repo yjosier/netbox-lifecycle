@@ -1,13 +1,14 @@
 from dcim.choices import DeviceStatusChoices
 from dcim.models import Device
-from extras.reports import Report
+#from extras.reports import Report
+from extras.scripts import Script
 
-class DeviceIPReport(Report):
+class HWEOLScript(Script):
     description = "Check that every device has either an IPv4 or IPv6 primary address assigned"
 
-    def test_primary_ip4(self):
+    def hw_eol_report(self):
         for device in Device.objects.filter(status=DeviceStatusChoices.STATUS_ACTIVE):
-            self.log_info(device, f"The deviceType of this device is {device.device_type}")
+            self.log_info(f"The deviceType of this device is {device.device_type}", obj=device)
             # intcount = 0
             # for interface in device.interfaces.all():
             #     if not interface.mgmt_only:
