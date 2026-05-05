@@ -1,6 +1,6 @@
 from dcim.choices import DeviceStatusChoices
-from dcim.models import Device, Site, Location
-from extras.scripts import *
+from dcim.models import Device, Site
+from extras.scripts import Script
 
 class HwEolScript(Script):
     class Meta:
