@@ -7,7 +7,7 @@ class DeviceIPReport(Report):
 
     def test_primary_ip4(self):
         for device in Device.objects.filter(status=DeviceStatusChoices.STATUS_ACTIVE):
-            self.log_info(device, "The deviceType of this device is %s", device.device_type)
+            self.log_info(device, f"The deviceType of this device is {device.device_type}")
             # intcount = 0
             # for interface in device.interfaces.all():
             #     if not interface.mgmt_only:
