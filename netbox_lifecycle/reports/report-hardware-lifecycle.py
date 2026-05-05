@@ -1,9 +1,10 @@
 from dcim.choices import DeviceStatusChoices
 from dcim.models import Device
 from extras.scripts import Script
+from extras.reports import Report
 import re
 
-class HWEOLReport(Script):
+class HWEOLReport(Report):
     description = "Report the EoL date for each device"
 
     def get_hweol_date(self):
