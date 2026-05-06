@@ -1,7 +1,11 @@
 from dcim.choices import DeviceStatusChoices
-from dcim.models import Device, DeviceType, Site
+from dcim.models import Device
+from netbox_lifecycle.models import SupportContractAssignment
+from netbox_lifecycle.constants import CONTRACT_STATUS_ACTIVE
 from extras.scripts import *
 from datetime import datetime
+import csv
+import io
 
 # self.log_info(f"Device site name = {device.site.name}")
 # self.log_info(f"Device site name from form = {data['site']}")
@@ -9,17 +13,12 @@ from datetime import datetime
 # self.log_info(f"The device type of this device is {device.device_type}", obj=device)
 
 
-class HwEolScript(Script):
+class Hwend_of_lifeScript(Script):
     class Meta(Script.Meta):
-        name = "Hardware End-Of-Life Script"
-        description = "Report End-Of-Life date of specified devices"
-        field_order = ['site_name', 'device_status']
+        name = "Spending forecast of devices"
+        description = "Report spending forecast for infrastructure"
+        field_order = ['device_status']
 
-    site = ObjectVar(
-        description="Site to pull devices from",
-        model=Site,
-        required=True
-    )
     device_status = ChoiceVar(
         DeviceStatusChoices, 
         default=DeviceStatusChoices.STATUS_ACTIVE,
@@ -28,20 +27,44 @@ class HwEolScript(Script):
     )
 
     def run(self, data, commit):
-        output = ['site,name,model,eol']
-        for device in Device.objects.filter(status=data['device_status']):
-            if device.site == data['site']:
-                eol = getattr(device.device_type.hardware_lifecycle.first(), 'end_of_support', None)
-                if eol:
-                    self.log_info(f"The EoL for {device} is : {eol}", obj=device)
-                else:
-                    self.log_info(f"The EoL for {device} is undefined.", obj=device)
-                attrs = [
-                    device.site.name,
-                    device.name,
-                    device.device_type.model,
-                    eol.strftime("%d/%m/%Y")
-                ]
-                output.append(','.join(attrs))
-        return '\n'.join(output)
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow([
+            'Device_Site', 'Device_Name', 'Device_Type', 'Device_Role',
+            'End_of_Sale', 'End_of_Maintenance', 'End_of_Security', 'End_of_Support',
+            'Support_Contract', 'End_of_Contract', 'Est_Renewal_Price',
+        ])
 
+        devices = Device.objects.filter(status=data['device_status']).select_related('device_type', 'role', 'site')
+
+        for device in devices:
+            lifecycle = device.device_type.hardware_lifecycle.first()
+
+            def date_to_string(d):
+                return d.strftime("%d/%m/%Y") if d else ''
+
+            renewal_price = device.device_type.cf.get('estimated_renewal_price', '') if hasattr(device.device_type, 'cf') else ''
+
+            active_assignments = [
+                assignment for assignment in SupportContractAssignment.objects.filter(device=device).select_related('contract')
+                if assignment.status == CONTRACT_STATUS_ACTIVE
+            ]
+
+            contract_id = active_assignments[0].contract.contract_id if active_assignments else ''
+            contract_end = active_assignments[0].end_date if active_assignments and active_assignments[0].end_date else ''
+
+            writer.writerow([
+                device.site.name,
+                device.name or 'Unamed device',
+                device.device_type.model,
+                device.role.name if device.role else '',
+                date_to_string(getattr(lifecycle, 'end_of_sale', None)),
+                date_to_string(getattr(lifecycle, 'end_of_maintenance', None)),
+                date_to_string(getattr(lifecycle, 'end_of_security', None)),
+                date_to_string(getattr(lifecycle, 'end_of_support', None)),
+                contract_id,
+                date_to_string(contract_end),
+                renewal_price
+            ])
+
+        return output.getvalue()
