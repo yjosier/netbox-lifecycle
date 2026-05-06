@@ -43,7 +43,7 @@ class Hwend_of_lifeScript(Script):
             def date_to_string(d):
                 return d.strftime("%d/%m/%Y") if d else ''
 
-            renewal_price = device.device_type.cf.get('estimated_renewal_price', '') if hasattr(device.device_type, 'cf') else ''
+            renewal_price = device.device_type.cf.get('Estimated_Renewal_Price', '') if hasattr(device.device_type, 'cf') else ''
 
             active_assignments = [
                 assignment for assignment in SupportContractAssignment.objects.filter(device=device).select_related('contract')
