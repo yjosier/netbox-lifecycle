@@ -47,6 +47,95 @@ TITLE_FONT = Font(name=GLOBAL_FONT, bold=True, size=16)
 SUBHEADER_FONT = Font(name=GLOBAL_FONT, bold=True, size=11)
 DEFAULT_FONT = Font(name=GLOBAL_FONT)
 
+# =========================================================================
+# Data collection — the only NetBox-specific code
+# =========================================================================
+
+def collect_device_data(device_status):
+    """Return a list of dicts with all the data the report needs.
+
+    This replaces build_placeholder_data() from the standalone script.
+    Output format is identical so all downstream code stays the same.
+    """
+    devices = Device.objects.filter(
+        status=device_status,
+    ).select_related('device_type', 'role', 'site')
+
+    rows = []
+    for device in devices:
+        lifecycle = device.device_type.hardware_lifecycle.first()
+
+        renewal_price_raw = device.device_type.cf.get('Estimated_Renewal_Price')
+        # Excel needs numeric; coerce empty/None/non-numeric to 0
+        try:
+            renewal_price = float(renewal_price_raw) if renewal_price_raw not in (None, '') else 0
+        except (TypeError, ValueError):
+            renewal_price = 0
+
+        active_assignments = [
+            a for a in SupportContractAssignment.objects.filter(
+                device=device).select_related('contract')
+            if a.status == CONTRACT_STATUS_ACTIVE
+        ]
+        contract_id = active_assignments[0].contract.contract_id if active_assignments else ''
+        contract_end = active_assignments[0].end_date if active_assignments else None
+
+        rows.append({
+            'site': device.site.name,
+            'name': device.name or 'Unnamed device',
+            'model': device.device_type.model,
+            'role': device.role.get_root().name,
+            'end_of_sale': getattr(lifecycle, 'end_of_sale', None),
+            'end_of_maintenance': getattr(lifecycle, 'end_of_maintenance', None),
+            'end_of_security': getattr(lifecycle, 'end_of_security', None),
+            'end_of_support': getattr(lifecycle, 'end_of_support', None),
+            'contract_id': contract_id,
+            'contract_end': contract_end,
+            'renewal_price': renewal_price,
+        })
+
+    return rows
+
+
+# =========================================================================
+# CSV output (your original logic, adapted to use the row dicts)
+# =========================================================================
+
+
+def render_csv(rows):
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow([
+        'Device_Site', 'Device_Name', 'Device_Type', 'Device_Role',
+        'End_of_Sale', 'End_of_Maintenance', 'End_of_Security', 'End_of_Support',
+        'Support_Contract', 'End_of_Contract', 'Est_Renewal_Price',
+    ])
+
+    def fmt_date(d):
+        return d.strftime("%d/%m/%Y") if d else ''
+
+    for row in rows:
+        writer.writerow([
+            row['site'],
+            row['name'],
+            row['model'],
+            row['role'],
+            fmt_date(row['end_of_sale']),
+            fmt_date(row['end_of_maintenance']),
+            fmt_date(row['end_of_security']),
+            fmt_date(row['end_of_support']),
+            row['contract_id'],
+            fmt_date(row['contract_end']),
+            # CSV preserves empty string for missing prices, unlike Excel
+            row['renewal_price'] if row['renewal_price'] else '',
+        ])
+    return output.getvalue()
+
+
+# =========================================================================
+# Excel output 
+# =========================================================================
+
 # ---- Helpers ------------------------------------------------------------
 
 def style_header_cells(ws, coords):
@@ -108,7 +197,6 @@ def make_chart_title_at_bottom(text):
     ))
     return title
 
-
 # ---- Formula building ---------------------------------------------------
 
 def _bucket_formula(category_col, category_value, period, table_ref='raw_data'):
@@ -126,7 +214,6 @@ def _bucket_formula(category_col, category_value, period, table_ref='raw_data'):
             f'*({table_ref}[End_of_Support]<DATE(YEAR(TODAY())+{offset+1},1,1))'
         )
     return f'=SUMPRODUCT({base}*{date_filter}*{table_ref}[Renewal_Price])'
-
 
 # ---- raw_data sheet -----------------------------------------------------
 
@@ -182,7 +269,6 @@ def build_raw_data_sheet(wb, rows):
     })
     ws.freeze_panes = 'A2'
     return ws
-
 
 # ---- detail_forecast sheet ---------------------------------------------
 
@@ -298,7 +384,6 @@ def build_detail_forecast_sheet(wb, today, unique_sites, unique_roles):
 
     autosize_columns(ws, {'A': 22, 'B': 30, 'C': 14, 'D': 14, 'E': 14, 'F': 14})
     return ws, role_annual_row
-
 
 # ---- Exec summary sheet -------------------------------------------------
 
@@ -476,83 +561,6 @@ def build_exec_summary(wb, today, role_annual_row_in_detail):
     return ws
 
 
-
-def collect_device_data(device_status):
-    """Return a list of dicts with all the data the report needs.
-
-    This replaces build_placeholder_data() from the standalone script.
-    Output format is identical so all downstream code stays the same.
-    """
-    devices = Device.objects.filter(
-        status=device_status,
-    ).select_related('device_type', 'role', 'site')
-
-    rows = []
-    for device in devices:
-        lifecycle = device.device_type.hardware_lifecycle.first()
-
-        renewal_price_raw = device.device_type.cf.get('Estimated_Renewal_Price')
-        # Excel needs numeric; coerce empty/None/non-numeric to 0
-        try:
-            renewal_price = float(renewal_price_raw) if renewal_price_raw not in (None, '') else 0
-        except (TypeError, ValueError):
-            renewal_price = 0
-
-        active_assignments = [
-            a for a in SupportContractAssignment.objects.filter(
-                device=device).select_related('contract')
-            if a.status == CONTRACT_STATUS_ACTIVE
-        ]
-        contract_id = active_assignments[0].contract.contract_id if active_assignments else ''
-        contract_end = active_assignments[0].end_date if active_assignments else None
-
-        rows.append({
-            'site': device.site.name,
-            'name': device.name or 'Unnamed device',
-            'model': device.device_type.model,
-            'role': device.role.get_root().name,
-            'end_of_sale': getattr(lifecycle, 'end_of_sale', None),
-            'end_of_maintenance': getattr(lifecycle, 'end_of_maintenance', None),
-            'end_of_security': getattr(lifecycle, 'end_of_security', None),
-            'end_of_support': getattr(lifecycle, 'end_of_support', None),
-            'contract_id': contract_id,
-            'contract_end': contract_end,
-            'renewal_price': renewal_price,
-        })
-
-    return rows
-
-
-def render_csv(rows):
-    output = io.StringIO()
-    writer = csv.writer(output)
-    writer.writerow([
-        'Device_Site', 'Device_Name', 'Device_Type', 'Device_Role',
-        'End_of_Sale', 'End_of_Maintenance', 'End_of_Security', 'End_of_Support',
-        'Support_Contract', 'End_of_Contract', 'Est_Renewal_Price',
-    ])
-
-    def fmt_date(d):
-        return d.strftime("%d/%m/%Y") if d else ''
-
-    for row in rows:
-        writer.writerow([
-            row['site'],
-            row['name'],
-            row['model'],
-            row['role'],
-            fmt_date(row['end_of_sale']),
-            fmt_date(row['end_of_maintenance']),
-            fmt_date(row['end_of_security']),
-            fmt_date(row['end_of_support']),
-            row['contract_id'],
-            fmt_date(row['contract_end']),
-            # CSV preserves empty string for missing prices, unlike Excel
-            row['renewal_price'] if row['renewal_price'] else '',
-        ])
-    return output.getvalue()
-
-
 def generate_report(rows, output_path, today=None):
     today = today or date.today()
 
@@ -578,6 +586,11 @@ def generate_report(rows, output_path, today=None):
 
     wb.save(output_path)
     return output_path
+
+
+# =========================================================================
+# The Custom Script class
+# =========================================================================
 
 
 class HardwareLifecycleReport(Script):
