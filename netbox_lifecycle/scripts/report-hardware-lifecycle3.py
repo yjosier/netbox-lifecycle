@@ -57,7 +57,7 @@ class Hwend_of_lifeScript(Script):
                 device.site.name,
                 device.name or 'Unamed device',
                 device.device_type.model,
-                device.role.name if device.role else '',
+                device.role.get_root().name,
                 date_to_string(getattr(lifecycle, 'end_of_sale', None)),
                 date_to_string(getattr(lifecycle, 'end_of_maintenance', None)),
                 date_to_string(getattr(lifecycle, 'end_of_security', None)),
