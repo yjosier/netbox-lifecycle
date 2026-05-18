@@ -18,6 +18,8 @@ from netbox_lifecycle.models import (
     HardwareLifecycle,
     License,
     LicenseAssignment,
+    Software,
+    SoftwareAssignment,
     SupportContract,
     SupportContractAssignment,
     SupportSKU,
@@ -28,6 +30,8 @@ __all__ = (
     'HardwareLifecycleFilterForm',
     'LicenseAssignmentFilterForm',
     'LicenseFilterForm',
+    'SoftwareFilterForm',
+    'SoftwareAssignmentFilterForm',
     'SupportContractAssignmentFilterForm',
     'SupportContractFilterForm',
     'SupportSKUFilterForm',
@@ -130,6 +134,20 @@ class LicenseFilterForm(NetBoxModelFilterSetForm):
     )
     tag = TagFilterField(model)
 
+class SoftwareFilterForm(NetBoxModelFilterSetForm):
+    model = Software
+    fieldsets = (
+        FieldSet('q', 'filter_id', 'tag'),
+        FieldSet('manufacturer_id', name='Software Information'),
+    )
+    manufacturer_id = DynamicModelMultipleChoiceField(
+        queryset=Manufacturer.objects.all(),
+        required=False,
+        selector=True,
+        label=_('Manufacturer'),
+    )
+    tag = TagFilterField(model)
+
 
 class SupportContractAssignmentFilterForm(NetBoxModelFilterSetForm):
     model = SupportContractAssignment
@@ -197,6 +215,44 @@ class LicenseAssignmentFilterForm(NetBoxModelFilterSetForm):
         required=False,
         selector=True,
         label=_('Licenses'),
+    )
+    vendor_id = DynamicModelMultipleChoiceField(
+        queryset=Vendor.objects.all(),
+        required=False,
+        selector=True,
+        label=_('Vendors'),
+    )
+    device_id = DynamicModelMultipleChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+        selector=True,
+        label=_('Devices'),
+    )
+    virtual_machine_id = DynamicModelMultipleChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        selector=True,
+        label=_('Virtual Machines'),
+    )
+    tag = TagFilterField(model)
+
+class SoftwareAssignmentFilterForm(NetBoxModelFilterSetForm):
+    model = SoftwareAssignment
+    fieldsets = (
+        FieldSet('q', 'filter_id', 'tag'),
+        FieldSet(
+            'software_id',
+            'vendor_id',
+            'device_id',
+            'virtual_machine_id',
+            name='Assignment',
+        ),
+    )
+    software_id = DynamicModelMultipleChoiceField(
+        queryset=Software.objects.all(),
+        required=False,
+        selector=True,
+        label=_('Software'),
     )
     vendor_id = DynamicModelMultipleChoiceField(
         queryset=Vendor.objects.all(),

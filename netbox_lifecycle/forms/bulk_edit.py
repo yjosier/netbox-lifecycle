@@ -9,6 +9,8 @@ from netbox_lifecycle.models import (
     HardwareLifecycle,
     License,
     LicenseAssignment,
+    Software,
+    SoftwareAssignment,
     SupportContract,
     SupportContractAssignment,
     SupportSKU,
@@ -134,6 +136,46 @@ class LicenseAssignmentBulkEditForm(NetBoxModelBulkEditForm):
     )
     nullable_fields = ('quantity',)
 
+class SoftwareBulkEditForm(NetBoxModelBulkEditForm):
+    description = forms.CharField(
+        label=_('Description'), max_length=200, required=False
+    )
+    comments = CommentField()
+
+    model = Software
+    fieldsets = (
+        FieldSet(
+            'description',
+        ),
+    )
+    nullable_fields = ('description',)
+
+
+class SoftwareAssignmentBulkEditForm(NetBoxModelBulkEditForm):
+    vendor = DynamicModelChoiceField(
+        queryset=SupportSKU.objects.all(), label=_('SKU'), required=False, selector=True
+    )
+    software = DynamicModelChoiceField(
+        queryset=SupportContract.objects.all(),
+        label=_('Software'),
+        required=False,
+        selector=True,
+    )
+    description = forms.CharField(
+        label=_('Description'), max_length=200, required=False
+    )
+    comments = CommentField()
+
+    model = SoftwareAssignment
+    fieldsets = (
+        FieldSet(
+            'vendor',
+            'software',
+            'quantity',
+            'description',
+        ),
+    )
+    nullable_fields = ('quantity',)
 
 class HardwareLifecycleBulkEditForm(NetBoxModelBulkEditForm):
     description = forms.CharField(

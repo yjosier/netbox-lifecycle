@@ -8,6 +8,8 @@ from netbox_lifecycle.models import (
     HardwareLifecycle,
     License,
     LicenseAssignment,
+    Software,
+    SoftwareAssignment,
     SupportContract,
     SupportContractAssignment,
     SupportSKU,
@@ -18,6 +20,8 @@ __all__ = (
     'HardwareLifecycleImportForm',
     'LicenseAssignmentImportForm',
     'LicenseImportForm',
+    'SoftwareImportForm',
+    'SoftwareAssignmentImportForm',
     'SupportContractAssignmentImportForm',
     'SupportContractImportForm',
     'SupportSKUImportForm',
@@ -137,6 +141,17 @@ class LicenseImportForm(NetBoxModelImportForm):
         model = License
         fields = ('manufacturer', 'name', 'description', 'comments', 'tags')
 
+class SoftwareImportForm(NetBoxModelImportForm):
+    manufacturer = CSVModelChoiceField(
+        label=_('Manufacturer'),
+        queryset=Manufacturer.objects.all(),
+        to_field_name='name',
+        help_text=_('Manufacturer name'),
+    )
+
+    class Meta:
+        model = Software
+        fields = ('manufacturer', 'name', 'description', 'comments', 'tags')
 
 class LicenseAssignmentImportForm(NetBoxModelImportForm):
     license = CSVModelChoiceField(
@@ -179,6 +194,46 @@ class LicenseAssignmentImportForm(NetBoxModelImportForm):
             'tags',
         )
 
+class SoftwareAssignmentImportForm(NetBoxModelImportForm):
+    software = CSVModelChoiceField(
+        label=_('Software'),
+        queryset=Software.objects.all(),
+        to_field_name='name',
+        help_text=_('Software name'),
+    )
+    vendor = CSVModelChoiceField(
+        label=_('Vendor'),
+        queryset=Vendor.objects.all(),
+        to_field_name='name',
+        help_text=_('Vendor name'),
+    )
+    device = CSVModelChoiceField(
+        label=_('Device'),
+        queryset=Device.objects.all(),
+        required=False,
+        to_field_name='name',
+        help_text=_('Device name'),
+    )
+    virtual_machine = CSVModelChoiceField(
+        label=_('Virtual Machine'),
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        to_field_name='name',
+        help_text=_('Virtual machine name'),
+    )
+
+    class Meta:
+        model = SoftwareAssignment
+        fields = (
+            'software',
+            'vendor',
+            'device',
+            'virtual_machine',
+            'quantity',
+            'description',
+            'comments',
+            'tags',
+        )
 
 class HardwareLifecycleImportForm(NetBoxModelImportForm):
     device_type = CSVModelChoiceField(
