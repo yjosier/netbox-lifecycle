@@ -65,12 +65,12 @@ def collect_device_data(device_status):
     for device in devices:
         lifecycle = device.device_type.hardware_lifecycle.first()
 
-        renewal_price_raw = device.device_type.cf.get('Estimated_Renewal_Price')
-        # Excel needs numeric; coerce empty/None/non-numeric to 0
-        try:
-            renewal_price = float(renewal_price_raw) if renewal_price_raw not in (None, '') else 0
-        except (TypeError, ValueError):
-            renewal_price = 0
+        # renewal_price_raw = device.device_type.cf.get('Estimated_Renewal_Price')
+        # # Excel needs numeric; coerce empty/None/non-numeric to 0
+        # try:
+        #     renewal_price = float(renewal_price_raw) if renewal_price_raw not in (None, '') else 0
+        # except (TypeError, ValueError):
+        #     renewal_price = 0
 
         active_assignments = [
             a for a in SupportContractAssignment.objects.filter(
@@ -91,7 +91,7 @@ def collect_device_data(device_status):
             'end_of_support': getattr(lifecycle, 'end_of_support', None),
             'contract_id': contract_id,
             'contract_end': contract_end,
-            'renewal_price': renewal_price,
+            'renewal_price': getattr(lifecycle, 'renewal_price', 0) or 0,
         })
 
     return rows
