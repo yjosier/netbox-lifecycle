@@ -34,6 +34,8 @@ class HardwareLifecycle(PrimaryModel):
     notice = models.CharField(max_length=500, blank=True, null=True)
     documentation = models.CharField(max_length=500, blank=True, null=True)
 
+    renewal_price = models.IntegerField(blank=True, null=True)
+
     clone_fields = (
         'end_of_sale',
         'end_of_maintenance',
@@ -43,6 +45,7 @@ class HardwareLifecycle(PrimaryModel):
         'end_of_support',
         'notice',
         'documentation',
+        'renewal_price'
     )
 
     class Meta:

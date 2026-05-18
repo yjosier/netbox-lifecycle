@@ -100,14 +100,15 @@ class HardwareLifecycleType(PrimaryObjectType):
         ]
         | None
     )
-    end_of_sale: str
+    end_of_sale: str | None
     end_of_maintenance: str | None
     end_of_security: str | None
     last_contract_attach: str | None
     last_contract_renewal: str | None
-    end_of_support: str
+    end_of_support: str | None
     notice: str | None
     documentation: str | None
+    renewal_price: int | None
 
 
 class HardwareLifecycleObjectTypes:

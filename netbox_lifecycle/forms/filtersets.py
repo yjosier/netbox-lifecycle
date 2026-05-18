@@ -68,6 +68,7 @@ class HardwareLifecycleFilterForm(NetBoxModelFilterSetForm):
     end_of_maintenance__lt = DateField(
         required=False,
         label=_('End of maintenance before'),
+        widget=DatePicker,
     )
     end_of_security__lt = DateField(
         required=False,

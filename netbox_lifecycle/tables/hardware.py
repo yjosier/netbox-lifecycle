@@ -37,6 +37,7 @@ class HardwareLifecycleTable(NetBoxTable):
             'last_contract_renewal',
             'description',
             'comments',
+            'renewal_price'
         )
         default_columns = (
             'pk',
