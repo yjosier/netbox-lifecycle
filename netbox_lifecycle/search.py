@@ -11,7 +11,7 @@ class VendorIndex(SearchIndex):
         ('description', 4000),
         ('comments', 5000),
     )
-    display_attrs = ('description',)
+    display_attrs = ('description')
 
 
 @register_search
@@ -72,3 +72,26 @@ class LicenseAssignmentIndex(SearchIndex):
         ('comments', 5000),
     )
     display_attrs = ('license', 'vendor', 'device', 'description')
+
+@register_search
+class SoftwareIndex(SearchIndex):
+    model = Software
+    fields = (
+        ('name', 100),
+        ('description', 4000),
+        ('comments', 5000),
+    )
+    display_attrs = ('manufacturer', 'description')
+
+
+@register_search
+class SoftwareAssignmentIndex(SearchIndex):
+    model = SoftwareAssignment
+    fields = (
+        ('software', 100),
+        ('vendor', 200),
+        ('device', 300),
+        ('description', 4000),
+        ('comments', 5000),
+    )
+    display_attrs = ('software', 'vendor', 'device', 'description')

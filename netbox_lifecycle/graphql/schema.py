@@ -43,6 +43,17 @@ class LicenseAssignmentQuery:
     license_assignment: LicenseAssignmentType = strawberry_django.field()
     license_assignment_list: list[LicenseAssignmentType] = strawberry_django.field()
 
+@strawberry.type(name="Query")
+class SoftwareQuery:
+    software: SoftwareType = strawberry_django.field()
+    software_list: list[SoftwareType] = strawberry_django.field()
+
+
+@strawberry.type(name="Query")
+class SoftwareAssignmentQuery:
+    software_assignment: SoftwareAssignmentType = strawberry_django.field()
+    software_assignment_list: list[SoftwareAssignmentType] = strawberry_django.field()
+
 
 @strawberry.type(name="Query")
 class HardwareLifecycleQuery:
@@ -57,5 +68,7 @@ schema = [
     SupportContractAssignmentQuery,
     LicenseQuery,
     LicenseAssignmentQuery,
+    SoftwareQuery,
+    SoftwareAssignmentQuery,
     HardwareLifecycleQuery,
 ]

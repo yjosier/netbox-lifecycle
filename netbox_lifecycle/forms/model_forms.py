@@ -13,6 +13,8 @@ from netbox_lifecycle.models import (
     HardwareLifecycle,
     License,
     LicenseAssignment,
+    Software,
+    SoftwareAssignment,
     SupportContract,
     SupportContractAssignment,
     SupportSKU,
@@ -23,6 +25,8 @@ __all__ = (
     'HardwareLifecycleForm',
     'LicenseAssignmentForm',
     'LicenseForm',
+    'Software',
+    'SoftwareAssignment',
     'SupportContractAssignmentForm',
     'SupportContractForm',
     'SupportSKUForm',
@@ -290,6 +294,84 @@ class LicenseAssignmentForm(NetBoxModelForm):
         fields = (
             'vendor',
             'license',
+            'device',
+            'virtual_machine',
+            'quantity',
+            'description',
+            'comments',
+            'tags',
+        )
+
+    def clean(self):
+        super().clean()
+
+        device = self.cleaned_data.get('device')
+        virtual_machine = self.cleaned_data.get('virtual_machine')
+
+        # Mutual exclusivity validation
+        if device and virtual_machine:
+            raise forms.ValidationError(
+                _('Device and virtual machine are mutually exclusive. Select only one.')
+            )
+
+        return self.cleaned_data
+
+class SoftwareForm(NetBoxModelForm):
+    manufacturer = DynamicModelChoiceField(
+        queryset=Manufacturer.objects.all(),
+        selector=False,
+    )
+
+    class Meta:
+        model = Software
+        fields = (
+            'manufacturer',
+            'name',
+            'description',
+            'comments',
+            'tags',
+        )
+
+
+class SoftwareAssignmentForm(NetBoxModelForm):
+    vendor = DynamicModelChoiceField(
+        queryset=Vendor.objects.all(),
+        selector=True,
+    )
+    software = DynamicModelChoiceField(
+        queryset=Software.objects.all(),
+        selector=True,
+    )
+    device = DynamicModelChoiceField(
+        queryset=Device.objects.all(),
+        required=False,
+        selector=True,
+        label=_('Device'),
+    )
+    virtual_machine = DynamicModelChoiceField(
+        queryset=VirtualMachine.objects.all(),
+        required=False,
+        selector=True,
+        label=_('Virtual Machine'),
+    )
+
+    fieldsets = (
+        FieldSet('vendor', 'software', name=_('Software')),
+        FieldSet(
+            TabbedGroups(
+                FieldSet('device', name=_('Device')),
+                FieldSet('virtual_machine', name=_('Virtual Machine')),
+            ),
+            name=_('Assignment'),
+        ),
+        FieldSet('quantity', 'description', 'comments', 'tags', name=_('Other')),
+    )
+
+    class Meta:
+        model = SoftwareAssignment
+        fields = (
+            'vendor',
+            'software',
             'device',
             'virtual_machine',
             'quantity',

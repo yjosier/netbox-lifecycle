@@ -36,6 +36,16 @@ license_assignments = PluginMenuItem(
     link_text='License Assignments',
     permissions=['netbox_lifecycle.view_licenseassignment'],
 )
+software = PluginMenuItem(
+    link='plugins:netbox_lifecycle:software_list',
+    link_text='Software',
+    permissions=['netbox_lifecycle.view_software'],
+)
+software_assignments = PluginMenuItem(
+    link='plugins:netbox_lifecycle:softwareassignment_list',
+    link_text='Software Assignments',
+    permissions=['netbox_lifecycle.view_softwareassignment'],
+)
 
 
 menu = PluginMenu(
@@ -46,4 +56,12 @@ menu = PluginMenu(
         ('Licensing', (licenses, license_assignments)),
     ),
     icon_class='mdi mdi-server',
+)
+
+menu = PluginMenu(
+    label='Software Lifecycle',
+    groups=(
+        ('Lifecycle', (software, software_assignments)),
+    ),
+    icon_class='mdi mdi-developer-board',
 )

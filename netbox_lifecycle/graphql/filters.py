@@ -10,6 +10,8 @@ __all__ = (
     'HardwareLifecycleFilter',
     'LicenseAssignmentFilter',
     'LicenseFilter',
+    'SoftwareAssignmentFilter',
+    'SoftwareFilter',
     'SupportContractAssignmentFilter',
     'SupportContractFilter',
     'SupportSKUFilter',
@@ -104,6 +106,37 @@ class LicenseAssignmentFilter(PrimaryModelFilter):
     ) = strawberry_django.filter_field()
     virtual_machine_id: strawberry.ID | None = strawberry_django.filter_field()
 
+@strawberry_django.filter(models.Software, lookups=True)
+class SoftwareFilter(PrimaryModelFilter):
+    manufacturer: (
+        Annotated['ManufacturerFilter', strawberry.lazy('dcim.graphql.filters')] | None
+    ) = strawberry_django.filter_field()
+    manufacturer_id: strawberry.ID | None = strawberry_django.filter_field()
+
+
+@strawberry_django.filter(models.SoftwareAssignment, lookups=True)
+class SoftwareAssignmentFilter(PrimaryModelFilter):
+    vendor: (
+        Annotated['VendorFilter', strawberry.lazy('netbox_lifecycle.graphql.filters')]
+        | None
+    ) = strawberry_django.filter_field()
+    vendor_id: strawberry.ID | None = strawberry_django.filter_field()
+    software: (
+        Annotated['SoftwareFilter', strawberry.lazy('netbox_lifecycle.graphql.filters')]
+        | None
+    ) = strawberry_django.filter_field()
+    software_id: strawberry.ID | None = strawberry_django.filter_field()
+    device: (
+        Annotated['DeviceFilter', strawberry.lazy('dcim.graphql.filters')] | None
+    ) = strawberry_django.filter_field()
+    device_id: strawberry.ID | None = strawberry_django.filter_field()
+    virtual_machine: (
+        Annotated[
+            'VirtualMachineFilter', strawberry.lazy('virtualization.graphql.filters')
+        ]
+        | None
+    ) = strawberry_django.filter_field()
+    virtual_machine_id: strawberry.ID | None = strawberry_django.filter_field()
 
 @strawberry_django.filter(models.HardwareLifecycle, lookups=True)
 class HardwareLifecycleFilter(PrimaryModelFilter):

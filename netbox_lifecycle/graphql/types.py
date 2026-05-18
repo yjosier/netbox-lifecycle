@@ -20,6 +20,8 @@ __all__ = (
     'HardwareLifecycleType',
     'LicenseAssignmentType',
     'LicenseType',
+    'SoftwareType',
+    'SoftwareAssignmentType',
     'SupportContractAssignmentType',
     'SupportContractType',
     'SupportSKUType',
@@ -39,9 +41,7 @@ class SupportSKUType(PrimaryObjectType):
     manufacturer: ManufacturerType
 
 
-@strawberry_django.type(
-    models.SupportContract, fields='__all__', filters=SupportContractFilter
-)
+@strawberry_django.type(models.SupportContract, fields='__all__', filters=SupportContractFilter)
 class SupportContractType(PrimaryObjectType):
 
     vendor: VendorType
@@ -53,6 +53,12 @@ class SupportContractType(PrimaryObjectType):
 
 @strawberry_django.type(models.License, fields='__all__', filters=LicenseFilter)
 class LicenseType(PrimaryObjectType):
+
+    manufacturer: ManufacturerType
+    name: str
+
+@strawberry_django.type(models.Software, fields='__all__', filters=SoftwareFilter)
+class SoftwareType(PrimaryObjectType):
 
     manufacturer: ManufacturerType
     name: str
@@ -73,11 +79,17 @@ class SupportContractAssignmentType(PrimaryObjectType):
     end: str | None
 
 
-@strawberry_django.type(
-    models.LicenseAssignment, fields='__all__', filters=LicenseAssignmentFilter
-)
+@strawberry_django.type(models.LicenseAssignment, fields='__all__', filters=LicenseAssignmentFilter)
 class LicenseAssignmentType(PrimaryObjectType):
     license: LicenseType
+    vendor: VendorType
+    device: DeviceType | None
+    virtual_machine: VirtualMachineType | None
+    quantity: int | None
+
+@strawberry_django.type(models.SoftwareAssignment, fields='__all__', filters=SoftwareAssignmentFilter)
+class SoftwareAssignmentType(PrimaryObjectType):
+    license: SoftwareType
     vendor: VendorType
     device: DeviceType | None
     virtual_machine: VirtualMachineType | None
