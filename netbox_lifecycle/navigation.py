@@ -49,19 +49,12 @@ software_assignments = PluginMenuItem(
 
 
 menu = PluginMenu(
-    label='Hardware Lifecycle',
+    label='Hardware and Software Lifecycle',
     groups=(
-        ('Lifecycle', (lifecycle,)),
+        ('Hardware', (lifecycle,)),
+        ('Software', (software, software_assignments)),
         ('Vendor Support', (vendors, skus, contracts, contract_assignments)),
         ('Licensing', (licenses, license_assignments)),
     ),
     icon_class='mdi mdi-server',
-)
-
-menu = PluginMenu(
-    label='Software Lifecycle',
-    groups=(
-        ('Lifecycle', (software, software_assignments)),
-    ),
-    icon_class='mdi mdi-developer-board',
 )
