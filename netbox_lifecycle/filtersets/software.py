@@ -59,10 +59,10 @@ class SoftwareAssignmentFilterSet(NetBoxModelFilterSet):
         label=_('Manufacturer'),
     )
     manufacturer = django_filters.ModelMultipleChoiceFilter(
-        field_name='manufacturer__name',
+        field_name='manufacturer__slug',
         queryset=Manufacturer.objects.all(),
-        to_field_name='name',
-        label=_('Manufacturer'),
+        to_field_name='slug',
+        label=_('Manufacturer (Slug)'),
     )
     device_id = django_filters.ModelMultipleChoiceFilter(
         field_name='device',
