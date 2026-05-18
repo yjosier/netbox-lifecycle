@@ -43,9 +43,9 @@ class HardwareLifecycle(PrimaryModel):
         'last_contract_attach',
         'last_contract_renewal',
         'end_of_support',
+        'renewal_price',
         'notice',
         'documentation',
-        'renewal_price'
     )
 
     class Meta:

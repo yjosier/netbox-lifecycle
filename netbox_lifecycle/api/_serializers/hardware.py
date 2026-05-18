@@ -21,6 +21,8 @@ class HardwareLifecycleSerializer(NetBoxModelSerializer):
     last_contract_renewal = serializers.DateField(required=False, allow_null=True)
     end_of_support = serializers.DateField(required=False, allow_null=True)
 
+    renewal_price = serializers.IntegerField(required=False, allow_null=True)
+
     class Meta:
         model = HardwareLifecycle
         fields = (
@@ -35,6 +37,7 @@ class HardwareLifecycleSerializer(NetBoxModelSerializer):
             'last_contract_attach',
             'last_contract_renewal',
             'end_of_support',
+            'renewal_price',
             'notice',
             'documentation',
             'description',
