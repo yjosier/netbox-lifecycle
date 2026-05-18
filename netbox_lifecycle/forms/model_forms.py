@@ -334,29 +334,32 @@ class SoftwareForm(NetBoxModelForm):
 
 
 class SoftwareAssignmentForm(NetBoxModelForm):
-    vendor = DynamicModelChoiceField(
-        queryset=Vendor.objects.all(),
+    manufacturer = DynamicModelChoiceField(
+        queryset=Manufacturer.objects.all(),
         selector=True,
+        help_text="Filter the availabled software and devices below"
     )
     software = DynamicModelChoiceField(
         queryset=Software.objects.all(),
         selector=True,
+        query_params={'manufacturer_id': '$manufacturer'},
     )
     device = DynamicModelChoiceField(
         queryset=Device.objects.all(),
-        required=False,
         selector=True,
         label=_('Device'),
+        query_params={'manufacturer_id': '$manufacturer'},
     )
     virtual_machine = DynamicModelChoiceField(
         queryset=VirtualMachine.objects.all(),
         required=False,
         selector=True,
         label=_('Virtual Machine'),
+        query_params={'manufacturer_id': '$manufacturer'},
     )
 
     fieldsets = (
-        FieldSet('vendor', 'software', name=_('Software')),
+        FieldSet('manufacturer', 'software', name=_('Software')),
         FieldSet(
             TabbedGroups(
                 FieldSet('device', name=_('Device')),
@@ -364,19 +367,16 @@ class SoftwareAssignmentForm(NetBoxModelForm):
             ),
             name=_('Assignment'),
         ),
-        FieldSet('quantity', 'description', 'comments', 'tags', name=_('Other')),
+        FieldSet('tags', name=_('Other')),
     )
 
     class Meta:
         model = SoftwareAssignment
         fields = (
-            'vendor',
+            'manufacturer',
             'software',
             'device',
             'virtual_machine',
-            'quantity',
-            'description',
-            'comments',
             'tags',
         )
 

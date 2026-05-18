@@ -43,8 +43,8 @@ class SoftwareAssignment(PrimaryModel):
         on_delete=models.CASCADE,
         related_name='assignments',
     )
-    vendor = models.ForeignKey(
-        to='netbox_lifecycle.Vendor',
+    manufacturer = models.ForeignKey(
+        to='netbox_lifecycle.Manufacturer',
         on_delete=models.CASCADE,
         related_name='software',
     )
@@ -68,12 +68,12 @@ class SoftwareAssignment(PrimaryModel):
     )
 
     clone_fields = (
-        'vendor',
+        'manufacturer',
         'software',
     )
     prerequisite_models = (
         'netbox_lifecycle.Software',
-        'netbox_lifecycle.Vendor',
+        'netbox_lifecycle.Manufacturer',
         'dcim.Device',
         'virtualization.VirtualMachine',
     )
