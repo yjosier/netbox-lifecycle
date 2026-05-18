@@ -34,7 +34,7 @@ class HardwareLifecycle(PrimaryModel):
     notice = models.CharField(max_length=500, blank=True, null=True)
     documentation = models.CharField(max_length=500, blank=True, null=True)
 
-    renewal_price = models.IntegerField(blank=True, null=True)
+    renewal_price = models.IntegerField(blank=True, null=True, help_text="Estimated replacement cost (CHF)")
 
     clone_fields = (
         'end_of_sale',
