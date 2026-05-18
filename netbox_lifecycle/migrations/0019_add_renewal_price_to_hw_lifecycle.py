@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('netbox_lifecycle', '0013_fix_hardware_lifecycle_model'),
+        ('netbox_lifecycle', '0018_netbox_v040500'),
     ]
 
     operations = [
