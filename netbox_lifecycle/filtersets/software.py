@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 from netbox.filtersets import NetBoxModelFilterSet
 from virtualization.models import VirtualMachine
 
-from netbox_lifecycle.models import Software, SoftwareAssignment, Vendor
+from netbox_lifecycle.models import Software, SoftwareAssignment
 
 __all__ = (
     'SoftwareAssignmentFilterSet',
@@ -53,16 +53,16 @@ class SoftwareAssignmentFilterSet(NetBoxModelFilterSet):
         to_field_name='name',
         label=_('Software'),
     )
-    vendor_id = django_filters.ModelMultipleChoiceFilter(
-        field_name='vendor',
-        queryset=Vendor.objects.all(),
-        label=_('Vendor'),
+    manufacturer_id = django_filters.ModelMultipleChoiceFilter(
+        field_name='manufacturer',
+        queryset=Manufacturer.objects.all(),
+        label=_('Manufacturer'),
     )
-    vendor = django_filters.ModelMultipleChoiceFilter(
-        field_name='vendor__name',
-        queryset=Vendor.objects.all(),
+    manufacturer = django_filters.ModelMultipleChoiceFilter(
+        field_name='manufacturer__name',
+        queryset=Manufacturer.objects.all(),
         to_field_name='name',
-        label=_('Vendor'),
+        label=_('Manufacturer'),
     )
     device_id = django_filters.ModelMultipleChoiceFilter(
         field_name='device',
@@ -100,7 +100,7 @@ class SoftwareAssignmentFilterSet(NetBoxModelFilterSet):
         qs_filter = (
             Q(software__manufacturer__name__icontains=value)
             | Q(software__name__icontains=value)
-            | Q(vendor__name__icontains=value)
+            | Q(manufacturer__name__icontains=value)
             | Q(device__name__icontains=value)
             | Q(virtual_machine__name__icontains=value)
         )
