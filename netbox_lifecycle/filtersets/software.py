@@ -15,12 +15,12 @@ __all__ = (
 
 class SoftwareFilterSet(NetBoxModelFilterSet):
     manufacturer_id = django_filters.ModelMultipleChoiceFilter(
-        field_name='software__manufacturer__name',
+        field_name='manufacturer',
         queryset=Manufacturer.objects.all(),
         label=_('Manufacturer'),
     )
     manufacturer = django_filters.ModelMultipleChoiceFilter(
-        field_name='software__manufacturer__slug',
+        field_name='manufacturer__slug',
         queryset=Manufacturer.objects.all(),
         to_field_name='slug',
         label=_('Manufacturer (Slug)'),

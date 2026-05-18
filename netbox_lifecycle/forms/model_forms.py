@@ -355,7 +355,6 @@ class SoftwareAssignmentForm(NetBoxModelForm):
         required=False,
         selector=True,
         label=_('Virtual Machine'),
-        query_params={'manufacturer_id': '$manufacturer'},
     )
 
     fieldsets = (

@@ -44,9 +44,9 @@ class SoftwareAssignment(PrimaryModel):
         related_name='assignments',
     )
     manufacturer = models.ForeignKey(
-        to='netbox_lifecycle.Manufacturer',
+        to='dcim.Manufacturer',
         on_delete=models.CASCADE,
-        related_name='software',
+        related_name='+', # don't create a reverse accessor
     )
     device = models.ForeignKey(
         to='dcim.Device',
@@ -73,7 +73,7 @@ class SoftwareAssignment(PrimaryModel):
     )
     prerequisite_models = (
         'netbox_lifecycle.Software',
-        'netbox_lifecycle.Manufacturer',
+        'dcim.Manufacturer',
         'dcim.Device',
         'virtualization.VirtualMachine',
     )
