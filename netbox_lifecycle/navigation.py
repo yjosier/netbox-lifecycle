@@ -38,7 +38,7 @@ license_assignments = PluginMenuItem(
 )
 software = PluginMenuItem(
     link='plugins:netbox_lifecycle:software_list',
-    link_text='Software',
+    link_text='Software Lifecycle',
     permissions=['netbox_lifecycle.view_software'],
 )
 software_assignments = PluginMenuItem(
@@ -49,7 +49,7 @@ software_assignments = PluginMenuItem(
 
 
 menu = PluginMenu(
-    label='Hardware and Software Lifecycle',
+    label='HW and SW Lifecycle',
     groups=(
         ('Hardware', (lifecycle,)),
         ('Software', (software, software_assignments)),
