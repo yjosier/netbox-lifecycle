@@ -51,6 +51,7 @@ class HardwareLifecycleFilterSet(NetBoxModelFilterSet):
             'end_of_maintenance',
             'end_of_security',
             'end_of_support',
+            'renewal_price',
         )
 
     def search(self, queryset, name, value):
