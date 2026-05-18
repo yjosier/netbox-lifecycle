@@ -4,7 +4,6 @@ from netbox.api.serializers import NetBoxModelSerializer
 from rest_framework import serializers
 from virtualization.api.serializers_.virtualmachines import VirtualMachineSerializer
 
-from netbox_lifecycle.api._serializers.vendor import VendorSerializer
 from netbox_lifecycle.models import Software, SoftwareAssignment
 
 __all__ = (
@@ -45,7 +44,7 @@ class SoftwareAssignmentSerializer(NetBoxModelSerializer):
         view_name='plugins-api:netbox_lifecycle-api:softwareassignment-detail'
     )
     software = SoftwareSerializer(nested=True)
-    vendor = VendorSerializer(nested=True)
+    manufacturer = ManufacturerSerializer(nested=True)
     device = DeviceSerializer(nested=True, required=False, allow_null=True)
     virtual_machine = VirtualMachineSerializer(
         nested=True, required=False, allow_null=True
@@ -57,7 +56,7 @@ class SoftwareAssignmentSerializer(NetBoxModelSerializer):
             'url',
             'id',
             'display',
-            'vendor',
+            'manufacturer',
             'software',
             'device',
             'virtual_machine',
@@ -71,7 +70,7 @@ class SoftwareAssignmentSerializer(NetBoxModelSerializer):
             'url',
             'id',
             'display',
-            'vendor',
+            'manufacturer',
             'software',
             'device',
             'virtual_machine',
