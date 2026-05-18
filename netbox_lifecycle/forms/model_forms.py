@@ -343,7 +343,7 @@ class HardwareLifecycleForm(NetBoxModelForm):
             'end_of_support',
             name=_('Dates'),
         ),
-        FieldSet('renewal_price', name=_('Finance'))
+        FieldSet('renewal_price', name=_('Finance')),
         FieldSet('notice', 'documentation', 'description', name=_('Information')),
         FieldSet('tags', name=_('Tags')),
     )
