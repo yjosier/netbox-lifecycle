@@ -226,7 +226,7 @@ class SoftwareAssignmentImportForm(NetBoxModelImportForm):
         model = SoftwareAssignment
         fields = (
             'software',
-            'vendor',
+            'manufacturer',
             'device',
             'virtual_machine',
             'description',
