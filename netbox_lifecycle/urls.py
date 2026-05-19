@@ -282,11 +282,11 @@ urlpatterns = [
         name='licenseassignment_changelog',
         kwargs={'model': LicenseAssignment},
     ),
-    # path(
-    #     'software-assignment/',
-    #     views.SoftwareAssignmentListView.as_view(),
-    #     name='softwareassignment_list',
-    # ),
+    path(
+        'software-assignment/',
+        views.SoftwareAssignmentListView.as_view(),
+        name='softwareassignment_list',
+    ),
     # path(
     #     'software-assignment/add',
     #     views.SoftwareAssignmentEditView.as_view(),
