@@ -14,9 +14,13 @@ class Software(PrimaryModel):
         on_delete=models.CASCADE,
         related_name='software',
     )
-    name = models.CharField(max_length=100)
 
-    clone_fields = ('manufacturer',)
+    name = models.CharField(max_length=100)
+    end_of_software_maintenance = models.DateField(blank=True, null=True)
+    end_of_security_maintenance = models.DateField(blank=True, null=True)
+    end_of_life = models.DateField(blank=True, null=True)
+
+    clone_fields = ('manufacturer')
     prerequisite_models = ('dcim.Manufacturer',)
 
     class Meta:
@@ -26,7 +30,7 @@ class Software(PrimaryModel):
                 'manufacturer',
                 Lower('name'),
                 name='%(app_label)s_%(class)s_unique_manufacturer_name',
-                violation_error_message="SKU name must be unique per manufacturer.",
+                violation_error_message="Version must be unique per manufacturer.",
             ),
         )
 
