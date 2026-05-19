@@ -256,12 +256,12 @@ class SupportContractAssignmentListView(ObjectListView):
     table = SupportContractAssignmentTable
     filterset = SupportContractAssignmentFilterSet
     filterset_form = SupportContractAssignmentFilterForm
-    actions = {
-        'add': {'add'},
-        'export': {'view'},
-        'bulk_edit': {'change'},
-        'bulk_delete': {'delete'},
-    }
+    # actions = {
+    #     'add': {'add'},
+    #     'export': {'view'},
+    #     'bulk_edit': {'change'},
+    #     'bulk_delete': {'delete'},
+    # }
 
 
 @register_model_view(SupportContract)
