@@ -190,26 +190,26 @@ urlpatterns = [
         name='license_changelog',
         kwargs={'model': License},
     ),
-    path('software/', views.SoftwareListView.as_view(), name='software_list'),
-    path('software/add', views.SoftwareEditView.as_view(), name='software_add'),
-    path('software/edit', views.SoftwareBulkEditView.as_view(), name='software_bulk_edit'),
-    path(
-        'software/delete',
-        views.SoftwareBulkDeleteView.as_view(),
-        name='software_bulk_delete',
-    ),
-    path('software/<int:pk>', views.SoftwareView.as_view(), name='software'),
+    # path('software/', views.SoftwareListView.as_view(), name='software_list'),
+    # path('software/add', views.SoftwareEditView.as_view(), name='software_add'),
+    # path('software/edit', views.SoftwareBulkEditView.as_view(), name='software_bulk_edit'),
+    # path(
+    #     'software/delete',
+    #     views.SoftwareBulkDeleteView.as_view(),
+    #     name='software_bulk_delete',
+    # ),
+    # path('software/<int:pk>', views.SoftwareView.as_view(), name='software'),
     path(
         'software/<int:pk>/assignments',
         views.SoftwareAssignmentsView.as_view(),
         name='software_assignments',
     ),
-    path('software/<int:pk>/edit', views.SoftwareEditView.as_view(), name='software_edit'),
-    path(
-        'software/<int:pk>/delete',
-        views.SoftwareDeleteView.as_view(),
-        name='software_delete',
-    ),
+    # path('software/<int:pk>/edit', views.SoftwareEditView.as_view(), name='software_edit'),
+    # path(
+    #     'software/<int:pk>/delete',
+    #     views.SoftwareDeleteView.as_view(),
+    #     name='software_delete',
+    # ),
     path(
         'software/<int:pk>/changelog',
         ObjectChangeLogView.as_view(),
@@ -282,41 +282,41 @@ urlpatterns = [
         name='licenseassignment_changelog',
         kwargs={'model': LicenseAssignment},
     ),
-    path(
-        'software-assignment/',
-        views.SoftwareAssignmentListView.as_view(),
-        name='softwareassignment_list',
-    ),
-    path(
-        'software-assignment/add',
-        views.SoftwareAssignmentEditView.as_view(),
-        name='softwareassignment_add',
-    ),
-    path(
-        'software-assignment/edit',
-        views.SoftwareAssignmentBulkEditView.as_view(),
-        name='softwareassignment_bulk_edit',
-    ),
-    path(
-        'software-assignment/delete/',
-        views.SoftwareAssignmentBulkDeleteView.as_view(),
-        name='softwareassignment_bulk_delete',
-    ),
-    path(
-        'software-assignment/<int:pk>',
-        views.SoftwareAssignmentView.as_view(),
-        name='softwareassignment',
-    ),
-    path(
-        'software-assignment/<int:pk>/edit',
-        views.SoftwareAssignmentEditView.as_view(),
-        name='softwareassignment_edit',
-    ),
-    path(
-        'software-assignment/<int:pk>/delete',
-        views.SoftwareAssignmentDeleteView.as_view(),
-        name='softwareassignment_delete',
-    ),
+    # path(
+    #     'software-assignment/',
+    #     views.SoftwareAssignmentListView.as_view(),
+    #     name='softwareassignment_list',
+    # ),
+    # path(
+    #     'software-assignment/add',
+    #     views.SoftwareAssignmentEditView.as_view(),
+    #     name='softwareassignment_add',
+    # ),
+    # path(
+    #     'software-assignment/edit',
+    #     views.SoftwareAssignmentBulkEditView.as_view(),
+    #     name='softwareassignment_bulk_edit',
+    # ),
+    # path(
+    #     'software-assignment/delete/',
+    #     views.SoftwareAssignmentBulkDeleteView.as_view(),
+    #     name='softwareassignment_bulk_delete',
+    # ),
+    # path(
+    #     'software-assignment/<int:pk>',
+    #     views.SoftwareAssignmentView.as_view(),
+    #     name='softwareassignment',
+    # ),
+    # path(
+    #     'software-assignment/<int:pk>/edit',
+    #     views.SoftwareAssignmentEditView.as_view(),
+    #     name='softwareassignment_edit',
+    # ),
+    # path(
+    #     'software-assignment/<int:pk>/delete',
+    #     views.SoftwareAssignmentDeleteView.as_view(),
+    #     name='softwareassignment_delete',
+    # ),
     path(
         'software-assignment/<int:pk>/changelog',
         ObjectChangeLogView.as_view(),
