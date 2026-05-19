@@ -136,7 +136,7 @@ class SupportContractAssignmentForm(NetBoxModelForm):
             name=_('Assignment'),
         ),
         FieldSet('end', name=_('Dates')),
-        FieldSet('description', 'comments', 'tags', name=_('Other')),
+        FieldSet('description', 'tags', name=_('Other')),
     )
 
     class Meta:
@@ -286,7 +286,7 @@ class LicenseAssignmentForm(NetBoxModelForm):
             ),
             name=_('Assignment'),
         ),
-        FieldSet('quantity', 'description', 'comments', 'tags', name=_('Other')),
+        FieldSet('quantity', 'description', 'tags', name=_('Other')),
     )
 
     class Meta:
@@ -330,7 +330,7 @@ class SoftwareForm(NetBoxModelForm):
         'end_of_life',
         name=_('Dates'),
     ),
-    FieldSet('description', 'comments', 'tags', name=_('Other')),
+    FieldSet('description', 'tags', name=_('Other')),
     )
 
     class Meta:
@@ -385,7 +385,7 @@ class SoftwareAssignmentForm(NetBoxModelForm):
             ),
             name=_('Assignment'),
         ),
-        FieldSet('description', 'comments', 'tags', name=_('Other')),
+        FieldSet('description', 'tags', name=_('Other')),
     )
 
     class Meta:
