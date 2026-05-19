@@ -17,6 +17,9 @@ class SoftwareSerializer(NetBoxModelSerializer):
         view_name='plugins-api:netbox_lifecycle-api:software-detail'
     )
     manufacturer = ManufacturerSerializer(nested=True)
+    end_of_software_maintenance = serializers.DateField(required=False, allow_null=True)
+    end_of_security_maintenance = serializers.DateField(required=False, allow_null=True)
+    end_of_life = serializers.DateField(required=False, allow_null=True)
 
     class Meta:
         model = Software
@@ -26,6 +29,9 @@ class SoftwareSerializer(NetBoxModelSerializer):
             'display',
             'name',
             'manufacturer',
+            'end_of_software_maintenance',
+            'end_of_security_maintenance',
+            'end_of_life',
             'description',
             'comments',
             'tags',

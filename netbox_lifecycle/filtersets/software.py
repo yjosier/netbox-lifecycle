@@ -32,6 +32,9 @@ class SoftwareFilterSet(NetBoxModelFilterSet):
             'id',
             'q',
             'name',
+            'end_of_software_maintenance',
+            'end_of_security_maintenance',
+            'end_of_life',
         )
 
     def search(self, queryset, name, value):

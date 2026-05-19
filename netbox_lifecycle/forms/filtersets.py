@@ -139,6 +139,12 @@ class SoftwareFilterForm(NetBoxModelFilterSetForm):
     fieldsets = (
         FieldSet('q', 'filter_id', 'tag'),
         FieldSet('manufacturer_id', name='Software Information'),
+        FieldSet(
+            'end_of_software_maintenance__lt',
+            'end_of_security_maintenance__lt',
+            'end_of_life__lt',
+            name=_('Dates'),
+        ),
     )
     manufacturer_id = DynamicModelMultipleChoiceField(
         queryset=Manufacturer.objects.all(),
@@ -146,6 +152,25 @@ class SoftwareFilterForm(NetBoxModelFilterSetForm):
         selector=True,
         label=_('Manufacturer'),
     )
+
+    end_of_software_maintenance__lt = DateField(
+        required=False,
+        label=_('End of Software Maintenance before'),
+        widget=DatePicker,
+    )
+
+    end_of_security_maintenance__lt = DateField(
+        required=False,
+        label=_('End of Security Maintenance before'),
+        widget=DatePicker,
+    )
+
+    end_of_life = DateField(
+        required=False,
+        label=_('End of Life before'),
+        widget=DatePicker,
+    )
+
     tag = TagFilterField(model)
 
 
@@ -242,7 +267,7 @@ class SoftwareAssignmentFilterForm(NetBoxModelFilterSetForm):
         FieldSet('q', 'filter_id', 'tag'),
         FieldSet(
             'software_id',
-            'vendor_id',
+            'manufacturer_id',
             'device_id',
             'virtual_machine_id',
             name='Assignment',
@@ -254,11 +279,11 @@ class SoftwareAssignmentFilterForm(NetBoxModelFilterSetForm):
         selector=True,
         label=_('Software'),
     )
-    vendor_id = DynamicModelMultipleChoiceField(
-        queryset=Vendor.objects.all(),
+    manufacturer_id = DynamicModelMultipleChoiceField(
+        queryset=Manufacturer.objects.all(),
         required=False,
         selector=True,
-        label=_('Vendors'),
+        label=_('Manufacturer'),
     )
     device_id = DynamicModelMultipleChoiceField(
         queryset=Device.objects.all(),

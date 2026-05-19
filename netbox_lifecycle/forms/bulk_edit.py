@@ -140,15 +140,37 @@ class SoftwareBulkEditForm(NetBoxModelBulkEditForm):
     description = forms.CharField(
         label=_('Description'), max_length=200, required=False
     )
+
     comments = CommentField()
+
+    end_of_software_maintenance = forms.DateField(
+        label=_('End of Software Maintenance'),
+        required=False,
+        widget=DatePicker(),
+    )
+
+    end_of_security_maintenance = forms.DateField(
+        label=_('End of Security Maintenance'),
+        required=False,
+        widget=DatePicker(),
+    )
+
+    end_of_life = forms.DateField(
+        label=_('End of Life'),
+        required=False,
+        widget=DatePicker(),
+    )
 
     model = Software
     fieldsets = (
         FieldSet(
             'description',
+            'end_of_software_maintenance',
+            'end_of_security_maintenance',
+            'end_of_life',
         ),
     )
-    nullable_fields = ('description',)
+    nullable_fields = ()
 
 
 class SoftwareAssignmentBulkEditForm(NetBoxModelBulkEditForm):
@@ -171,11 +193,10 @@ class SoftwareAssignmentBulkEditForm(NetBoxModelBulkEditForm):
         FieldSet(
             'vendor',
             'software',
-            'quantity',
             'description',
         ),
     )
-    nullable_fields = ('quantity',)
+    nullable_fields = ()
 
 class HardwareLifecycleBulkEditForm(NetBoxModelBulkEditForm):
     description = forms.CharField(

@@ -322,22 +322,39 @@ class SoftwareForm(NetBoxModelForm):
         selector=False,
     )
 
+    fieldsets = (
+        FieldSet(
+            'end_of_software_maintenance',
+            'end_of_security_maintenance',
+            'end_of_life',
+            name=_('Dates'),
+        )
+    )
+
     class Meta:
         model = Software
         fields = (
             'manufacturer',
+            'end_of_software_maintenance',
+            'end_of_security_maintenance',
+            'end_of_life',
             'name',
             'description',
             'comments',
             'tags',
         )
+        widgets = {
+            'end_of_software_maintenance': DatePicker(),
+            'end_of_security_maintenance': DatePicker(),
+            'end_of_life': DatePicker(),
+        }
 
 
 class SoftwareAssignmentForm(NetBoxModelForm):
     manufacturer = DynamicModelChoiceField(
         queryset=Manufacturer.objects.all(),
         selector=True,
-        help_text="Filter the availabled software and devices below"
+        help_text="Used to filter the available software and devices below"
     )
     software = DynamicModelChoiceField(
         queryset=Software.objects.all(),

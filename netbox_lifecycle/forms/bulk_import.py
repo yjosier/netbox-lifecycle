@@ -229,7 +229,6 @@ class SoftwareAssignmentImportForm(NetBoxModelImportForm):
             'vendor',
             'device',
             'virtual_machine',
-            'quantity',
             'description',
             'comments',
             'tags',
