@@ -56,13 +56,14 @@ class SoftwareView(ObjectView):
     queryset = Software.objects.all()
 
 
+@register_model_view(Software, 'add', detail=False)
 @register_model_view(Software, 'edit')
 class SoftwareEditView(ObjectEditView):
     queryset = Software.objects.all()
     form = SoftwareForm
 
 
-@register_model_view(Software, 'bulk_edit')
+@register_model_view(Software, 'bulk_edit', path='edit', detail=False)
 class SoftwareBulkEditView(BulkEditView):
     queryset = Software.objects.all()
     filterset = SoftwareFilterSet
@@ -75,7 +76,7 @@ class SoftwareDeleteView(ObjectDeleteView):
     queryset = Software.objects.all()
 
 
-@register_model_view(Software, 'bulk_delete')
+@register_model_view(Software, 'bulk_delete', path='delete', detail=False)
 class SoftwareBulkDeleteView(BulkDeleteView):
     queryset = Software.objects.all()
     filterset = SoftwareFilterSet
@@ -118,7 +119,7 @@ class SoftwareAssignmentListView(ObjectListView):
 class SoftwareAssignmentView(ObjectView):
     queryset = SoftwareAssignment.objects.all()
 
-
+@register_model_view(SoftwareAssignment, 'add', detail=False)
 @register_model_view(SoftwareAssignment, 'edit')
 class SoftwareAssignmentEditView(ObjectEditView):
     queryset = SoftwareAssignment.objects.all()
@@ -130,7 +131,7 @@ class SoftwareAssignmentDeleteView(ObjectDeleteView):
     queryset = SoftwareAssignment.objects.all()
 
 
-@register_model_view(SoftwareAssignment, 'bulk_edit')
+@register_model_view(SoftwareAssignment, 'bulk_edit', path='edit', detail=False)
 class SoftwareAssignmentBulkEditView(BulkEditView):
     queryset = SoftwareAssignment.objects.all()
     filterset = SoftwareAssignmentFilterSet
@@ -138,7 +139,7 @@ class SoftwareAssignmentBulkEditView(BulkEditView):
     form = SoftwareAssignmentBulkEditForm
 
 
-@register_model_view(SoftwareAssignment, 'bulk_delete')
+@register_model_view(SoftwareAssignment, 'bulk_delete', path='delete', detail=False)
 class SoftwareAssignmentBulkDeleteView(BulkDeleteView):
     queryset = SoftwareAssignment.objects.all()
     filterset = SoftwareAssignmentFilterSet
