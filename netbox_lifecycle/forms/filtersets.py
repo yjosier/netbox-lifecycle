@@ -165,7 +165,7 @@ class SoftwareFilterForm(NetBoxModelFilterSetForm):
         widget=DatePicker,
     )
 
-    end_of_life = DateField(
+    end_of_life__lt = DateField(
         required=False,
         label=_('End of Life before'),
         widget=DatePicker,
