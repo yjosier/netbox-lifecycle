@@ -20,7 +20,7 @@ class Software(PrimaryModel):
     end_of_security_maintenance = models.DateField(blank=True, null=True)
     end_of_life = models.DateField(blank=True, null=True)
 
-    clone_fields = ('manufacturer')
+    clone_fields = ('manufacturer',)
     prerequisite_models = ('dcim.Manufacturer',)
 
     class Meta:
