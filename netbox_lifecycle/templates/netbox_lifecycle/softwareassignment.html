@@ -18,7 +18,7 @@
               <td>{{ object.software|linkify }}</td>
             </tr>
             <tr>
-              <th>Vendor</th>
+              <th>Manufacturer</th>
               <td>{{ object.manufacturer|linkify }}</td>
             </tr>
             {% if object.device %}
@@ -32,10 +32,6 @@
               <td>{{ object.virtual_machine|linkify }}</td>
             </tr>
             {% endif %}
-            <tr>
-              <th>Quantity</th>
-              <td>{{ object.quantity }}</td>
-            </tr>
             <tr>
               <th>Description</th>
               <td>{{ object.description }}</td>
