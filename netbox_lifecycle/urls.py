@@ -31,6 +31,11 @@ urlpatterns = [
         name='hardwarelifecycle_bulk_edit',
     ),
     path(
+        'lifecycle/import',
+        views.HardwareLifecycleBulkImportView.as_view(),
+        name='hardwarelifecycle_bulk_import',
+    ),
+    path(
         'lifecycle/delete',
         views.HardwareLifecycleBulkDeleteView.as_view(),
         name='hardwarelifecycle_bulk_delete',
@@ -59,6 +64,7 @@ urlpatterns = [
     path('vendors/', views.VendorListView.as_view(), name='vendor_list'),
     path('vendors/add', views.VendorEditView.as_view(), name='vendor_add'),
     path('vendors/edit', views.VendorBulkEditView.as_view(), name='vendor_bulk_edit'),
+    path('vendors/import', views.VendorBulkImportView.as_view(), name='vendor_bulk_import'),
     path(
         'vendors/delete',
         views.VendorBulkDeleteView.as_view(),
@@ -91,6 +97,11 @@ urlpatterns = [
         'contracts/edit',
         views.SupportContractBulkEditView.as_view(),
         name='supportcontract_bulk_edit',
+    ),
+    path(
+        'contracts/import',
+        views.SupportContractBulkImportView.as_view(),
+        name='supportcontract_bulk_import',
     ),
     path(
         'contracts/delete',
@@ -139,6 +150,11 @@ urlpatterns = [
         name='supportcontractassignment_bulk_edit',
     ),
     path(
+        'contract-assignment/import/',
+        views.SupportContractAssignmentBulkImportView.as_view(),
+        name='supportcontractassignment_bulk_import',
+    ),
+    path(
         'contract-assignment/delete/',
         views.SupportContractAssignmentBulkDeleteView.as_view(),
         name='supportcontractassignment_bulk_delete',
@@ -167,6 +183,7 @@ urlpatterns = [
     path('license/', views.LicenseListView.as_view(), name='license_list'),
     path('license/add', views.LicenseEditView.as_view(), name='license_add'),
     path('license/edit', views.LicenseBulkEditView.as_view(), name='license_bulk_edit'),
+    path('license/import', views.LicenseBulkImportView.as_view(), name='license_bulk_import'),
     path(
         'license/delete',
         views.LicenseBulkDeleteView.as_view(),
@@ -219,9 +236,8 @@ urlpatterns = [
     ),
     path('sku/', views.SupportSKUListView.as_view(), name='supportsku_list'),
     path('sku/add', views.SupportSKUEditView.as_view(), name='supportsku_add'),
-    path(
-        'sku/edit', views.SupportSKUBulkEditView.as_view(), name='supportsku_bulk_edit'
-    ),
+    path('sku/edit', views.SupportSKUBulkEditView.as_view(), name='supportsku_bulk_edit'),
+    path('sku/import', views.SupportSKUBulkImportView.as_view(), name='supportsku_bulk_import'),
     path(
         'sku/delete',
         views.SupportSKUBulkDeleteView.as_view(),
@@ -256,6 +272,11 @@ urlpatterns = [
         'license-assignment/edit',
         views.LicenseAssignmentBulkEditView.as_view(),
         name='licenseassignment_bulk_edit',
+    ),
+    path(
+        'license-assignment/import',
+        views.LicenseAssignmentBulkImportView.as_view(),
+        name='licenseassignment_bulk_import',
     ),
     path(
         'license-assignment/delete/',
@@ -297,6 +318,11 @@ urlpatterns = [
         'software-assignment/edit',
         views.SoftwareAssignmentBulkEditView.as_view(),
         name='softwareassignment_bulk_edit',
+    ),
+    path(
+        'software-assignment/import',
+        views.SoftwareAssignmentBulkImportView.as_view(),
+        name='softwareassignment_bulk_import',
     ),
     path(
         'software-assignment/import/',
