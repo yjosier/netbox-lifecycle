@@ -61,7 +61,10 @@ class LicenseType(PrimaryObjectType):
 class SoftwareType(PrimaryObjectType):
 
     manufacturer: ManufacturerType
-    name: str
+    name: str | None
+    end_of_software_maintenance: str | None
+    end_of_security_maintenance: str | None
+    end_of_life: str | None 
 
 
 @strawberry_django.type(
@@ -90,15 +93,12 @@ class LicenseAssignmentType(PrimaryObjectType):
 @strawberry_django.type(models.SoftwareAssignment, fields='__all__', filters=SoftwareAssignmentFilter)
 class SoftwareAssignmentType(PrimaryObjectType):
     license: SoftwareType
-    manufacturer: ManufacturerType
+    manufacturer: ManufacturerType  
     device: DeviceType | None
     virtual_machine: VirtualMachineType | None
-    quantity: int | None
 
 
-@strawberry_django.type(
-    models.HardwareLifecycle, fields='__all__', filters=HardwareLifecycleFilter
-)
+@strawberry_django.type(models.HardwareLifecycle, fields='__all__', filters=HardwareLifecycleFilter)
 class HardwareLifecycleType(PrimaryObjectType):
     assigned_object_type: (
         Annotated["ContentTypeType", strawberry.lazy('netbox.graphql.types')] | None
