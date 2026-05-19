@@ -190,7 +190,7 @@ urlpatterns = [
         name='license_changelog',
         kwargs={'model': License},
     ),
-    # path('software/', views.SoftwareListView.as_view(), name='software_list'),
+    path('software/', views.SoftwareListView.as_view(), name='software_list'),
     # path('software/add', views.SoftwareEditView.as_view(), name='software_add'),
     # path('software/edit', views.SoftwareBulkEditView.as_view(), name='software_bulk_edit'),
     # path(
