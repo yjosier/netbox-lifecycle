@@ -21,13 +21,21 @@ class SoftwareTable(NetBoxTable):
         model = Software
         fields = (
             'pk',
+            'manufacturer',
             'name',
             'description',
+            'end_of_software_maintenance',
+            'end_of_security_maintenance',
+            'end_of_life',
             'comments',
         )
         default_columns = (
             'pk',
+            'manufacturer',
             'name',
+            'end_of_software_maintenance',
+            'end_of_security_maintenance',
+            'end_of_life',
         )
 
 
@@ -45,8 +53,13 @@ class SoftwareAssignmentTable(NetBoxTable):
             'manufacturer',
             'device',
             'virtual_machine',
-            'quantity',
             'description',
             'comments',
         )
-        default_columns = ('pk', 'software', 'manufacturer', 'device', 'virtual_machine')
+        default_columns = (
+            'pk',
+            'software',
+            'manufacturer',
+            'device',
+            'virtual_machine',
+        )
