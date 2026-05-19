@@ -266,35 +266,33 @@ class SoftwareAssignmentFilterForm(NetBoxModelFilterSetForm):
     fieldsets = (
         FieldSet('q', 'filter_id', 'tag'),
         FieldSet(
-            'software_id',
             'manufacturer_id',
+            'software_id',
             'device_id',
             'virtual_machine_id',
             name='Assignment',
         ),
     )
-    software_id = DynamicModelMultipleChoiceField(
-        queryset=Software.objects.all(),
-        required=False,
-        selector=True,
-        label=_('Software'),
-    )
     manufacturer_id = DynamicModelMultipleChoiceField(
         queryset=Manufacturer.objects.all(),
         required=False,
-        selector=True,
         label=_('Manufacturer'),
+    )
+    software_id = DynamicModelMultipleChoiceField(
+        queryset=Software.objects.all(),
+        required=False,
+        label=_('Software'),
+        query_params={'manufacturer_id': '$manufacturer'},
     )
     device_id = DynamicModelMultipleChoiceField(
         queryset=Device.objects.all(),
         required=False,
-        selector=True,
         label=_('Devices'),
+        query_params={'manufacturer_id': '$manufacturer'},
     )
     virtual_machine_id = DynamicModelMultipleChoiceField(
         queryset=VirtualMachine.objects.all(),
         required=False,
-        selector=True,
         label=_('Virtual Machines'),
     )
     tag = TagFilterField(model)
