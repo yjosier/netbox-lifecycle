@@ -323,12 +323,14 @@ class SoftwareForm(NetBoxModelForm):
     )
 
     fieldsets = (
-        FieldSet(
-            'end_of_software_maintenance',
-            'end_of_security_maintenance',
-            'end_of_life',
-            name=_('Dates'),
-        )
+    FieldSet('manufacturer', 'name', name=_('Software')),
+    FieldSet(
+        'end_of_software_maintenance',
+        'end_of_security_maintenance',
+        'end_of_life',
+        name=_('Dates'),
+    ),
+    FieldSet('description', 'comments', 'tags', name=_('Other')),
     )
 
     class Meta:
