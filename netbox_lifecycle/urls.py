@@ -329,7 +329,7 @@ urlpatterns = [
         name='softwareassignment_changelog',
         kwargs={'model': SoftwareAssignment},
     ),
-    HTMX endpoints
+    #HTMX endpoints
     path(
         'htmx/device/<int:pk>/contracts/',
         views.DeviceContractsHTMXView.as_view(),
