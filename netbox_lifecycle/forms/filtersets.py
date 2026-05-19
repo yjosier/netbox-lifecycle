@@ -282,13 +282,13 @@ class SoftwareAssignmentFilterForm(NetBoxModelFilterSetForm):
         queryset=Software.objects.all(),
         required=False,
         label=_('Software'),
-        query_params={'manufacturer_id': '$manufacturer'},
+        query_params={'manufacturer_id': '$manufacturer_id'},
     )
     device_id = DynamicModelMultipleChoiceField(
         queryset=Device.objects.all(),
         required=False,
         label=_('Devices'),
-        query_params={'manufacturer_id': '$manufacturer'},
+        query_params={'manufacturer_id': '$manufacturer_id'},
     )
     virtual_machine_id = DynamicModelMultipleChoiceField(
         queryset=VirtualMachine.objects.all(),
