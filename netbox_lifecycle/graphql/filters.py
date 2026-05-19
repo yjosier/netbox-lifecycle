@@ -117,7 +117,7 @@ class SoftwareFilter(PrimaryModelFilter):
 @strawberry_django.filter(models.SoftwareAssignment, lookups=True)
 class SoftwareAssignmentFilter(PrimaryModelFilter):
     manufacturer: (
-        Annotated['ManufacturerFilter', strawberry.lazy('netbox_lifecycle.graphql.filters')]
+        Annotated['ManufacturerFilter', strawberry.lazy('dcim.graphql.filters')]
         | None
     ) = strawberry_django.filter_field()
     manufacturer_id: strawberry.ID | None = strawberry_django.filter_field()

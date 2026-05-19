@@ -90,7 +90,7 @@ class LicenseAssignmentType(PrimaryObjectType):
 @strawberry_django.type(models.SoftwareAssignment, fields='__all__', filters=SoftwareAssignmentFilter)
 class SoftwareAssignmentType(PrimaryObjectType):
     license: SoftwareType
-    vendor: VendorType
+    manufacturer: ManufacturerType
     device: DeviceType | None
     virtual_machine: VirtualMachineType | None
     quantity: int | None
