@@ -82,7 +82,7 @@ class SoftwareBulkDeleteView(BulkDeleteView):
     table = SoftwareTable
 
 
-@register_model_view(Software, 'bulk_import')
+@register_model_view(Software, 'bulk_import', path='import', detail=False)
 class SoftwareBulkImportView(BulkImportView):
     queryset = Software.objects.all()
     model_form = SoftwareImportForm
@@ -145,7 +145,7 @@ class SoftwareAssignmentBulkDeleteView(BulkDeleteView):
     table = SoftwareAssignmentTable
 
 
-@register_model_view(SoftwareAssignment, 'bulk_import')
+@register_model_view(SoftwareAssignment, 'bulk_import', path='import', detail=False)
 class SoftwareAssignmentBulkImportView(BulkImportView):
     queryset = SoftwareAssignment.objects.all()
     model_form = SoftwareAssignmentImportForm
