@@ -201,11 +201,11 @@ class SoftwareAssignmentImportForm(NetBoxModelImportForm):
         to_field_name='name',
         help_text=_('Software name'),
     )
-    vendor = CSVModelChoiceField(
-        label=_('Vendor'),
-        queryset=Vendor.objects.all(),
+    manufacturer = CSVModelChoiceField(
+        label=_('Manufacturer'),
+        queryset=Manufacturer.objects.all(),
         to_field_name='name',
-        help_text=_('Vendor name'),
+        help_text=_('Manufacturer name'),
     )
     device = CSVModelChoiceField(
         label=_('Device'),

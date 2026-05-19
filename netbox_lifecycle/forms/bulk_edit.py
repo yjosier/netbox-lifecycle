@@ -4,6 +4,7 @@ from netbox.forms import NetBoxModelBulkEditForm
 from utilities.forms.fields import CommentField, DynamicModelChoiceField
 from utilities.forms.rendering import FieldSet
 from utilities.forms.widgets import DatePicker
+from dcim.models import Manufacturer
 
 from netbox_lifecycle.models import (
     HardwareLifecycle,
@@ -174,14 +175,15 @@ class SoftwareBulkEditForm(NetBoxModelBulkEditForm):
 
 
 class SoftwareAssignmentBulkEditForm(NetBoxModelBulkEditForm):
-    vendor = DynamicModelChoiceField(
-        queryset=SupportSKU.objects.all(), label=_('SKU'), required=False, selector=True
+    manufacturer = DynamicModelChoiceField(
+        queryset=Manufacturer.objects.all(), label=_('Manufacturer'), required=False, selector=True
     )
     software = DynamicModelChoiceField(
-        queryset=SupportContract.objects.all(),
+        queryset=Software.objects.all(),
         label=_('Software'),
         required=False,
         selector=True,
+        query_params={'manufacturer_id': '$manufacturer'}
     )
     description = forms.CharField(
         label=_('Description'), max_length=200, required=False
@@ -191,7 +193,7 @@ class SoftwareAssignmentBulkEditForm(NetBoxModelBulkEditForm):
     model = SoftwareAssignment
     fieldsets = (
         FieldSet(
-            'vendor',
+            'manufacturer',
             'software',
             'description',
         ),
