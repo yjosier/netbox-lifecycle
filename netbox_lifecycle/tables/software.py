@@ -15,7 +15,10 @@ class SoftwareTable(NetBoxTable):
         verbose_name=_('Name'),
         linkify=True,
     )
-    manufacturer = tables.Column(verbose_name=_('Manufacturer'), linkify=True)
+    manufacturer = tables.Column(
+        verbose_name=_('Manufacturer'),
+        linkify=True,
+    )
 
     class Meta(NetBoxTable.Meta):
         model = Software
@@ -40,10 +43,22 @@ class SoftwareTable(NetBoxTable):
 
 
 class SoftwareAssignmentTable(NetBoxTable):
-    software = tables.Column(verbose_name=_('Software'), linkify=True)
-    manufacturer = tables.Column(verbose_name=_('Manufacturer'), linkify=True)
-    device = tables.Column(verbose_name=_('Device'), linkify=True)
-    virtual_machine = tables.Column(verbose_name=_('Virtual Machine'), linkify=True)
+    software = tables.Column(
+        verbose_name=_('Software'),
+        linkify=True,
+    )
+    manufacturer = tables.Column(
+        verbose_name=_('Manufacturer'),
+        linkify=True,
+    )
+    device = tables.Column(
+        verbose_name=_('Device'),
+        linkify=True,
+    )
+    virtual_machine = tables.Column(
+        verbose_name=_('Virtual Machine'),
+        linkify=True,
+    )
 
     class Meta(NetBoxTable.Meta):
         model = SoftwareAssignment
@@ -58,8 +73,7 @@ class SoftwareAssignmentTable(NetBoxTable):
         )
         default_columns = (
             'pk',
-            'software',
             'manufacturer',
+            'software',
             'device',
-            'virtual_machine',
         )

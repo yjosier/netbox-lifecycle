@@ -385,7 +385,7 @@ class SoftwareAssignmentForm(NetBoxModelForm):
             ),
             name=_('Assignment'),
         ),
-        FieldSet('tags', name=_('Other')),
+        FieldSet('description', 'comments', 'tags', name=_('Other')),
     )
 
     class Meta:
@@ -395,6 +395,8 @@ class SoftwareAssignmentForm(NetBoxModelForm):
             'software',
             'device',
             'virtual_machine',
+            'description',
+            'comments',
             'tags',
         )
 

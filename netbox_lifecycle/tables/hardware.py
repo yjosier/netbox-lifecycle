@@ -42,7 +42,8 @@ class HardwareLifecycleTable(NetBoxTable):
         default_columns = (
             'pk',
             'name',
-            'assigned_object',
             'end_of_sale',
             'end_of_maintenance',
+            'end_of_support',
+            'renewal_price',
         )
