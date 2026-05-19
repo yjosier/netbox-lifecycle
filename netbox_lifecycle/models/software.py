@@ -84,6 +84,8 @@ class SoftwareAssignment(PrimaryModel):
 
     class Meta:
         ordering = ['software', 'device', 'virtual_machine']
+        verbose_name = 'Software'
+        verbose_name_plural = 'Software Lifecycle' # Prevent auto-generation of "SoftwareS"
         constraints = (
             models.CheckConstraint(
                 check=(
