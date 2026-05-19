@@ -33,7 +33,7 @@ class SoftwareTable(NetBoxTable):
 
 class SoftwareAssignmentTable(NetBoxTable):
     software = tables.Column(verbose_name=_('Software'), linkify=True)
-    vendor = tables.Column(verbose_name=_('Vendor'), linkify=True)
+    manufacturer = tables.Column(verbose_name=_('Manufacturer'), linkify=True)
     device = tables.Column(verbose_name=_('Device'), linkify=True)
     virtual_machine = tables.Column(verbose_name=_('Virtual Machine'), linkify=True)
 
@@ -42,11 +42,11 @@ class SoftwareAssignmentTable(NetBoxTable):
         fields = (
             'pk',
             'software',
-            'vendor',
+            'manufacturer',
             'device',
             'virtual_machine',
             'quantity',
             'description',
             'comments',
         )
-        default_columns = ('pk', 'software', 'vendor', 'device', 'virtual_machine')
+        default_columns = ('pk', 'software', 'manufacturer', 'device', 'virtual_machine')

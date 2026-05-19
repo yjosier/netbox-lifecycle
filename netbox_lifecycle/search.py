@@ -89,9 +89,9 @@ class SoftwareAssignmentIndex(SearchIndex):
     model = SoftwareAssignment
     fields = (
         ('software', 100),
-        ('vendor', 200),
+        ('manufacturer', 200),
         ('device', 300),
         ('description', 4000),
         ('comments', 5000),
     )
-    display_attrs = ('software', 'vendor', 'device', 'description')
+    display_attrs = ('software', 'manufacturer', 'device', 'description')

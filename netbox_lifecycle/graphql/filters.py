@@ -116,11 +116,11 @@ class SoftwareFilter(PrimaryModelFilter):
 
 @strawberry_django.filter(models.SoftwareAssignment, lookups=True)
 class SoftwareAssignmentFilter(PrimaryModelFilter):
-    vendor: (
-        Annotated['VendorFilter', strawberry.lazy('netbox_lifecycle.graphql.filters')]
+    manufacturer: (
+        Annotated['ManufacturerFilter', strawberry.lazy('netbox_lifecycle.graphql.filters')]
         | None
     ) = strawberry_django.filter_field()
-    vendor_id: strawberry.ID | None = strawberry_django.filter_field()
+    manufacturer_id: strawberry.ID | None = strawberry_django.filter_field()
     software: (
         Annotated['SoftwareFilter', strawberry.lazy('netbox_lifecycle.graphql.filters')]
         | None
